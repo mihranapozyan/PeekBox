@@ -1,0 +1,6 @@
+build/
+PeekBox.app
+*.xcodeproj/xcuserdata/
+.DS_Store
+Vendor/7zip/7zz
+dist/

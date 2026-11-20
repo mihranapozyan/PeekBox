@@ -1,0 +1,59 @@
+name: PeekBox
+options:
+  bundleIdPrefix: com.mihran
+  deploymentTarget:
+    macOS: "14.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    SWIFT_STRICT_CONCURRENCY: minimal
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+    ARCHS: arm64
+    ONLY_ACTIVE_ARCH: NO
+targets:
+  PeekBox:
+    type: application
+    platform: macOS
+    sources:
+      - PeekBox
+      - path: Vendor/7zip/7zz
+        buildPhase:
+          copyFiles:
+            destination: executables
+        attributes: [CodeSignOnCopy]
+      - path: Vendor/7zip/License.txt
+        buildPhase: resources
+    preBuildScripts:
+      - name: Build 7-Zip helper
+        script: '[ -x "$SRCROOT/Vendor/7zip/7zz" ] || "$SRCROOT/Scripts/build-7zip.sh"'
+        basedOnDependencyAnalysis: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mihran.PeekBox
+        INFOPLIST_FILE: PeekBox/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        SWIFT_OBJC_BRIDGING_HEADER: PeekBox/Services/LibArchive/LibArchive.h
+        OTHER_LDFLAGS: -larchive
+        ENABLE_HARDENED_RUNTIME: YES
+        ENABLE_APP_SANDBOX: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+  PeekBoxTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [Tests]
+    dependencies:
+      - target: PeekBox
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/PeekBox.app/Contents/MacOS/PeekBox
+        BUNDLE_LOADER: $(TEST_HOST)
+schemes:
+  PeekBox:
+    build:
+      targets: { PeekBox: all, PeekBoxTests: [test] }
+    test:
+      targets: [PeekBoxTests]
