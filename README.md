@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="PeekBox/Assets.xcassets/AppIcon.appiconset/icon-128@2x.png" width="104" alt="PeekBox app icon">
+  <img src="docs/icon.png" width="104" alt="PeekBox app icon">
 </p>
 
 <h1 align="center">PeekBox</h1>
@@ -9,7 +9,20 @@
   A native archive browser and extractor for macOS.
 </p>
 
-<p align="center">macOS 14 or later · Apple Silicon</p>
+<p align="center">
+  <a href="https://github.com/mihranapozyan/PeekBox/releases/latest/download/PeekBox.dmg">
+    <img src="docs/download.svg" width="240" alt="Download PeekBox for macOS">
+  </a>
+</p>
+
+<p align="center">macOS 14 or later · Apple Silicon · <a href="https://github.com/mihranapozyan/PeekBox/releases">All releases</a></p>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/browser-dark.png">
+    <img src="docs/screenshots/browser-light.png" width="780" alt="PeekBox showing the contents of a ZIP archive">
+  </picture>
+</p>
 
 ## Features
 
@@ -21,6 +34,20 @@
 - **Safe extraction.** Files land next to the archive only after extraction succeeds; paths that try to escape the destination are contained.
 - **Default app.** One click makes PeekBox the app Finder uses for archives.
 
+## Install
+
+1. Download **PeekBox.dmg** and open it.
+2. Drag **PeekBox** onto **Applications**.
+3. The first time, right-click PeekBox in Applications and choose **Open**, then confirm. PeekBox is not notarized by Apple yet, so macOS asks once.
+4. To open archives with PeekBox when you double-click them, click **Make Default** in its window.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/empty-dark.png">
+    <img src="docs/screenshots/empty-light.png" width="380" alt="PeekBox ready for an archive">
+  </picture>
+</p>
+
 ## Build from source
 
 Requires Xcode 16 or later and [XcodeGen](https://github.com/yonaskolb/XcodeGen).
@@ -29,6 +56,7 @@ Requires Xcode 16 or later and [XcodeGen](https://github.com/yonaskolb/XcodeGen)
 ./Scripts/install.sh   # build and install into /Applications
 ./Scripts/test.sh      # run the tests
 ./Scripts/package.sh   # test, build and pack dist/PeekBox-<version>.zip
+./Scripts/make-dmg.sh  # build dist/PeekBox.dmg for a release
 ```
 
 The first build compiles the bundled 7-Zip console helper from its official source (`Scripts/build-7zip.sh`).
